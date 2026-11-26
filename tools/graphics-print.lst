@@ -1,0 +1,95 @@
+01   0000             ; POKE 23875 with band 0..21; output is 176 bytes at 40000 + band * 176.
+02   0000             
+03   0000                 org 23872
+04   5D40             
+05   5D40 C3 44 5D        jp convertLine
+06   5D43             
+07   5D43             band:
+08   5D43 00              db 0
+09   5D44             
+10   5D44             convertLine:
+11   5D44 DD E5           push ix
+12   5D46 3A 43 5D        ld a, (band)
+13   5D49 E6 18           and 0x18
+14   5D4B 67              ld h, a
+15   5D4C 3A 43 5D        ld a, (band)
+16   5D4F E6 07           and 7
+17   5D51 07              rlca
+18   5D52 07              rlca
+19   5D53 07              rlca
+20   5D54 07              rlca
+21   5D55 07              rlca
+22   5D56 6F              ld l, a
+23   5D57 7C              ld a, h
+24   5D58 C6 40           add a, 0x40
+25   5D5A 67              ld h, a
+26   5D5B 22 B8 5D        ld (bandBase), hl
+27   5D5E             
+28   5D5E 21 40 9C        ld hl, 40000
+29   5D61 3A 43 5D        ld a, (band)
+30   5D64 B7              or a
+31   5D65 28 07           jr z, outputReady
+32   5D67 01 B0 00        ld bc, 176
+33   5D6A             addOutput:
+34   5D6A 09              add hl, bc
+35   5D6B 3D              dec a
+36   5D6C 20 FC           jr nz, addOutput
+37   5D6E             outputReady:
+38   5D6E E5              push hl
+39   5D6F DD E1           pop ix
+40   5D71             
+41   5D71 AF              xor a
+42   5D72 32 BA 5D        ld (pixelX), a
+43   5D75             xLoop:
+44   5D75 3A BA 5D        ld a, (pixelX)
+45   5D78 E6 07           and 7
+46   5D7A 47              ld b, a
+47   5D7B 3E 80           ld a, 0x80
+48   5D7D 28 03           jr z, maskReady
+49   5D7F             maskShift:
+50   5D7F 0F              rrca
+51   5D80 10 FD           djnz maskShift
+52   5D82             maskReady:
+53   5D82 5F              ld e, a
+54   5D83             
+55   5D83 3A BA 5D        ld a, (pixelX)
+56   5D86 0F              rrca
+57   5D87 0F              rrca
+58   5D88 0F              rrca
+59   5D89 E6 1F           and 0x1f
+60   5D8B C6 0A           add a, 10
+61   5D8D 2A B8 5D        ld hl, (bandBase)
+62   5D90 85              add a, l
+63   5D91 6F              ld l, a
+64   5D92             
+65   5D92 06 08           ld b, 8
+66   5D94 0E 00           ld c, 0
+67   5D96 16 80           ld d, 0x80
+68   5D98             rowLoop:
+69   5D98 7E              ld a, (hl)
+70   5D99 A3              and e
+71   5D9A 28 03           jr z, noDot
+72   5D9C 79              ld a, c
+73   5D9D B2              or d
+74   5D9E 4F              ld c, a
+75   5D9F             noDot:
+76   5D9F 24              inc h
+77   5DA0 CB 3A           srl d
+78   5DA2 10 F4           djnz rowLoop
+79   5DA4             
+80   5DA4 79              ld a, c
+81   5DA5 DD 77 00        ld (ix + 0), a
+82   5DA8 DD 23           inc ix
+83   5DAA 3A BA 5D        ld a, (pixelX)
+84   5DAD 3C              inc a
+85   5DAE 32 BA 5D        ld (pixelX), a
+86   5DB1 FE B0           cp 176
+87   5DB3 20 C0           jr nz, xLoop
+88   5DB5             
+89   5DB5 DD E1           pop ix
+90   5DB7 C9              ret
+91   5DB8             
+92   5DB8             bandBase:
+93   5DB8 00 00           dw 0
+94   5DBA             pixelX:
+95   5DBA 00              db 0

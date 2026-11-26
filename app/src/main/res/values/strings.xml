@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sinclair Photo</string>
+    <string name="main_title">&#x41A;&#x418;&#x411;&#x415;&#x420;-&#x41C;&#x423;&#x417;&#x415;&#x419;, &#x41C;&#x423;&#x420;&#x41E;&#x41C;</string>
+    <string name="make_photo">Make photo</string>
+    <string name="ascii_mode">ASCII mode</string>
+    <string name="take_photo">Take photo</string>
+    <string name="cancel">Cancel</string>
+    <string name="camera_preview">Square camera preview</string>
+    <string name="camera_permission_required">Camera permission is required</string>
+    <string name="photo_cancelled">Photo cancelled</string>
+    <string name="select_usb_root">Select the root of the connected USB flash drive</string>
+    <string name="usb_access_required">USB drive access is required to save the photo</string>
+    <string name="connect_usb">Connect a USB flash drive using an OTG cable and take the photo again</string>
+    <string name="saving_files">Saving photo.txt and photo.trd...</string>
+    <string name="files_saved">Saved photo.txt and photo.trd on the USB flash drive</string>
+    <string name="save_error">Cannot save files: %1$s</string>
+</resources>
