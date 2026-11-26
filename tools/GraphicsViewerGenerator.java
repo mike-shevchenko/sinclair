@@ -164,7 +164,7 @@ public final class GraphicsViewerGenerator {
         writeTextLines(program, 260, printerText, PRINT_TEXT_WIDTH);
         writeLine(program, 300, new BasicLine().token(LPRINT).token(CHR).ascii(" ")
                 .number(13).ascii(";").token(CHR).ascii(" ").number(27)
-                .ascii(";\"J\";").token(CHR).ascii(" ").number(25).ascii(";t$;"));
+                .ascii(";\"J\";").token(CHR).ascii(" ").number(26).ascii(";t$;"));
         writeLine(program, 310, new BasicLine().token(IF).ascii("y>").number(21)
                 .token(THEN).token(GO_TO).number(410));
         writeLine(program, 330, new BasicLine().token(LPRINT).token(CHR).ascii(" ")
